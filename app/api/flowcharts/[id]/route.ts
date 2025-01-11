@@ -1,30 +1,38 @@
 import { NextResponse } from 'next/server'
-import { MongoClient, ObjectId } from 'mongodb'
-
-const uri = process.env.MONGODB_URI as string
-const client = new MongoClient(uri)
+import clientPromise from '@/lib/mongodb'
+import { ObjectId } from 'mongodb'
 
 export async function DELETE(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    await client.connect()
-    const database = client.db('email_sequence_builder')
-    const flows = database.collection('flows')
+    const id = params.id
     
-    const result = await flows.deleteOne({ _id: new ObjectId(params.id) })
-    
-    if (result.deletedCount === 1) {
-      return NextResponse.json({ success: true })
-    } else {
-      return NextResponse.json({ error: 'Flow not found' }, { status: 404 })
+    if (!id) {
+      return NextResponse.json({ error: 'ID is required' }, { status: 400 })
     }
+
+    const client = await clientPromise
+    const db = client.db('email-marketing-sequence')
+    const flowcharts = db.collection('flowcharts')
+
+    const result = await flowcharts.deleteOne({ _id: new ObjectId(id) })
+
+    if (result.deletedCount === 0) {
+      return NextResponse.json({ error: 'Flowchart not found' }, { status: 404 })
+    }
+
+    return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Error deleting flow:', error)
-    return NextResponse.json({ error: 'Failed to delete flow' }, { status: 500 })
-  } finally {
-    await client.close()
+    console.error('Error deleting flowchart:', error)
+    return NextResponse.json(
+      { 
+        error: 'Failed to delete flowchart',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      }, 
+      { status: 500 }
+    )
   }
 }
 
