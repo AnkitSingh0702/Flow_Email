@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 import { NextResponse } from 'next/server'
 import clientPromise from '@/lib/mongodb'
 import agenda from '@/lib/agenda'
