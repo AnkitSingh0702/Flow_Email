@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 import { NextResponse } from 'next/server'
 import clientPromise from '@/lib/mongodb'
 import agenda from '@/lib/agenda'
@@ -32,7 +31,7 @@ export async function POST(request: Request) {
 
     // Build a graph of node connections
     const graph = new Map<string, string[]>()
-    edges.forEach((edge: any) => {
+    edges.forEach((edge: { source: string, target: string }) => {
       if (!graph.has(edge.source)) {
         graph.set(edge.source, [])
       }
@@ -61,8 +60,9 @@ export async function POST(request: Request) {
         const pathDelay = calculatePathDelay(node.id)
         const { to, subject, body } = node.data.emailData
 
-        // Schedule with more detailed job data
-        await agenda.schedule(`in ${pathDelay} hours`, 'send email', {
+        // Await agenda instance before calling schedule
+        const agendaInstance = await agenda
+        await agendaInstance.schedule(`in ${pathDelay} hours`, 'send email', {
           to,
           subject,
           body,
@@ -93,8 +93,8 @@ export async function POST(request: Request) {
       }
     })
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       message: 'Sequence saved and emails scheduled',
       id: result.insertedId.toString(),
       stats: {
@@ -105,7 +105,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Server error while saving flowchart:', error)
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to save sequence',
         details: error instanceof Error ? error.message : 'Unknown error'
       },
@@ -113,4 +113,3 @@ export async function POST(request: Request) {
     )
   }
 }
-

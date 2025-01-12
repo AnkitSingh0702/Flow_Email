@@ -262,38 +262,7 @@ export function FlowEditor() {
     }
   }, [nodes, edges]);
 
-  const deleteFlowchart = useCallback(async () => {
-    if (!currentFlowchartId) {
-      console.error('No flowchart selected to delete');
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      const response = await fetch(`/api/flowcharts?id=${currentFlowchartId}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to delete flowchart');
-      }
-
-      // Reset the flow editor state
-      setNodes(initialNodes as CustomNode[]);
-      setEdges([{ 
-        id: 'e1', 
-        source: 'source', 
-        target: 'start', 
-        type: 'smoothstep' 
-      }]);
-      setCurrentFlowchartId(null);
-    } catch (error) {
-      console.error('Error deleting flowchart:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [currentFlowchartId, setNodes, setEdges]);
+ 
 
   const testScheduleEmail = useCallback(async () => {
     try {
@@ -439,7 +408,7 @@ export function FlowEditor() {
           </Button>
           <Button 
             variant="outline" 
-            onClick={deleteFlowchart}
+          
             disabled={isLoading || !currentFlowchartId}
           >
             <Trash2 className="w-4 h-4 mr-2" />

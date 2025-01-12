@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     }
 
     // Schedule the email
-    await agenda.schedule('in 1 hour', 'send email', {
+    await (await agenda).schedule('in 1 hour', 'send email', {
       to,
       subject,
       body: emailBody,
