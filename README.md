@@ -1,8 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Flow_Email
+Orchestrate powerful email campaigns with ease. Design, automate, and optimize your sequences. Welcome to FlowMail – where every message moves your audience
+# 💻 Demo
+<img src="gif/gif.gif" />
 
-## Getting Started
+## 🛠️ Tech Stack
 
-First, run the development server:
+- **Frontend**: Next.js 15 (App Router), ReactFlow
+- **Backend**: Agenda, Nodemailer
+- **Database**: MongoDB
+- **Authentication**: NextAuth
+- **Styling**: Tailwind CSS
+- **UI Components**: Shadcnui
+- **Icons**: Lucide React , React Icons
+- **TypeScript**: For type safety
+
+## 📦 Installation
+
+If you wish to build the project locally and see what my website looks like, you can run the following command to first get my project on your system:
+
+```bash
+git clone https://github.com/AnkitSingh0702/Flow_Email.git
+
+cd Flow_Emai
+```
+Install the dependencies:
+
+```bash
+npm install
+```
 
 ```bash
 npm run dev
