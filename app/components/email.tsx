@@ -54,10 +54,10 @@ export function EmailModal({ isOpen, onClose, onSave }: EmailModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-w-full px-4 sm:px-6 py-6 sm:py-8">
         <DialogHeader>
-          <DialogTitle>Add Cold Email</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-xl sm:text-2xl">Add Cold Email</DialogTitle>
+          <DialogDescription className="text-sm sm:text-base">
             Configure your cold email settings here. The email will be sent based on the sequence flow.
           </DialogDescription>
         </DialogHeader>
@@ -71,6 +71,7 @@ export function EmailModal({ isOpen, onClose, onSave }: EmailModalProps) {
               value={emailData.to}
               onChange={(e) => setEmailData({ ...emailData, to: e.target.value })}
               required
+              className="w-full"
             />
           </div>
           <div className="space-y-2">
@@ -81,6 +82,7 @@ export function EmailModal({ isOpen, onClose, onSave }: EmailModalProps) {
               value={emailData.subject}
               onChange={(e) => setEmailData({ ...emailData, subject: e.target.value })}
               required
+              className="w-full"
             />
           </div>
           <div className="space-y-2">
@@ -91,18 +93,19 @@ export function EmailModal({ isOpen, onClose, onSave }: EmailModalProps) {
               value={emailData.body}
               onChange={(e) => setEmailData({ ...emailData, body: e.target.value })}
               required
-              className="h-32"
+              className="w-full h-32 sm:h-48"
             />
           </div>
-          <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={onClose}>
+          <div className="flex justify-end gap-2 mt-4">
+            <Button type="button" variant="outline" onClick={onClose} className="w-auto sm:w-1/3">
               Cancel
             </Button>
-            <Button type="submit">Add Email</Button>
+            <Button type="submit" className="w-auto sm:w-1/3">
+              Add Email
+            </Button>
           </div>
         </form>
       </DialogContent>
     </Dialog>
   )
 }
-
